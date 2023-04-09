@@ -25,3 +25,9 @@ type Test<T> = {
 type result = Test<number>
 // type result = number
 ```
+
+5.00002-medium-return-type.ts， 注意infer关键字的应用。infer关键字是用于推断泛型中的子变量类型，你可以理解为在泛型中定义类型变量的能力
+```typescript
+type MyReturnType<T extends Function> = T extends (...args: any) => infer R ? R : never
+```
+上面代码中，如果要推断函数的返回类型，必须使用infer对R进行定义，否则会报错
