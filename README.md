@@ -30,4 +30,14 @@ type result = Test<number>
 ```typescript
 type MyReturnType<T extends Function> = T extends (...args: any) => infer R ? R : never
 ```
-上面代码中，如果要推断函数的返回类型，必须使用infer对R进行定义，否则会报错
+上面代码中，如果要推断函数的返回类型，必须使用infer对R进行定义，否则会报错 
+
+
+6.00003-medium-omit.ts， 这里涉及到一个知识点，两个联合类型A,B用extends进行比较的时候，如果相等，返回三元表达式的第一个结果，这个是预期中的，但是如果不相等，其结果是一个联合类型，这个联合类型由A中的每个元素依次与B中的每个元素extends计算后得出，比如：
+```typescript
+type CustomType<A, B> = A extends B ? 'a': 'b'
+type r1 = CustomType<'1' | '2', '2' | '3'>
+// type  r1 = "b" | "a"
+type r2 = CustomType<'1' | '2', '1' | '2'>
+// type  r2 = 'a'
+```
