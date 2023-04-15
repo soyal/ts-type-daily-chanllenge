@@ -56,3 +56,20 @@ type D = <T extends string>() => void
 const d:D = () => {}
 ```
 上面的代码在类型校验时不会报错
+
+9.00015-medium-last.ts 在类型的计算表达式中，是可以对数组进行解构操作的
+```typescript
+type Last<T> = T extends [...infer _, infer L] ? L: never;
+```
+要追加一个容易忽略的知识点，typescript的类型中，具体的值其实也是一个类型，比如
+```typescript
+const a = 1;
+// a的类型是1
+const a:number = 1;
+// a的类型是number
+```
+因此在类型的计算中，也可以拿具体的值参与类型推断，所以这道题还有一种乍看比较奇特的解法
+```typescript
+type Last<T extends any[]> = [any, ...T][T["length"]];
+```
+这里T['length']可以直接拿到数组的length属性，但是因为类型推断中无法使用加法运算，所以这里无法表达T[T['length'] - 1]，所以这里才有[any, ...T]的操作
