@@ -41,3 +41,18 @@ type r1 = CustomType<'1' | '2', '2' | '3'>
 type r2 = CustomType<'1' | '2', '1' | '2'>
 // type  r2 = 'a'
 ```
+
+8.00012-medium-chainable-options.ts，需要注意两个知识点，一个是递归的应用
+```typescript
+type Chainable<T extends {} = {}> = {
+    option<K extends string, V>(key: Exclude<K, keyof T>, value: V): Chainable<Overwrite<T, Record<K, V>>>
+    get():  T
+  }
+```
+还有一个就是函数的generic，调用的时候是可以不传的
+```typescript
+type D = <T extends string>() => void
+
+const d:D = () => {}
+```
+上面的代码在类型校验时不会报错
