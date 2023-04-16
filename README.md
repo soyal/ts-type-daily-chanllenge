@@ -73,3 +73,21 @@ const a:number = 1;
 type Last<T extends any[]> = [any, ...T][T["length"]];
 ```
 这里T['length']可以直接拿到数组的length属性，但是因为类型推断中无法使用加法运算，所以这里无法表达T[T['length'] - 1]，所以这里才有[any, ...T]的操作
+
+
+11.00020-medium-promise-all.ts  这里也有两个知识点，第一个是readonly的应用
+```typescript
+declare function foo<T extends any[]>(param: readonly [any, ...T]): T
+const r = foo([1,2,3])
+// type r = [number, number]
+const r2 = foo([1,2,3] as const)
+// type r2 = [2,3]
+```
+上面的foo类型的函数，如果传入的不是一个readonly的入参，则提取结果是[number, number]，而经过const转义后，其提取类型就会变成[2, 3]，其实仔细想想就能明白为什么ts有这样的设计，因为常量类型不会变化，因此可以推断出更精准的结果，而想要表明函数入参是一个常量，就需要readonly关键字。同时这里也要明白，readonly后面必须跟数组或者tuple，也就是必须这么写
+```typescript
+// 即使T本身为数组，也必须使用spread
+declare function foo<T extends any[]>(param: readonly [...T]): T
+// 下面这种写法会报错
+declare function foo<T extends any[]>(param: readonly T): T
+```
+第二个知识点，Awaited的应用，可以用Awaited来提取Promise<Foo>中Foo的类型
