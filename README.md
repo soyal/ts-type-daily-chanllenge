@@ -91,3 +91,15 @@ declare function foo<T extends any[]>(param: readonly [...T]): T
 declare function foo<T extends any[]>(param: readonly T): T
 ```
 第二个知识点，Awaited的应用，可以用Awaited来提取Promise<Foo>中Foo的类型
+
+`12.00062-medium-type-lookup.ts` distribute特性，跟题6是一样的底层逻辑，泛型中联合类型的extends运算，是依次拿被联合的每个元素去extends，将判断结果再次联合，举例
+```typescript
+type A = 'a' | 'b' | 'c'
+
+type B = 'a'
+
+type Test<T, B> = T extends B ? T: never
+
+type C = Test<A, B>
+// C = 'a'
+```
