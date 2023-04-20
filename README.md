@@ -103,3 +103,10 @@ type Test<T, B> = T extends B ? T: never
 type C = Test<A, B>
 // C = 'a'
 ```
+
+`13.00106-medium-trimleft.ts` 类型表达式中，是可以用模板字符串的！注意下面的写法
+```typescript
+type Space = ' ' | '\t' | '\n'
+
+type TrimLeft<S extends string> = S extends `${Space}${infer R}` ? TrimLeft<R> : S
+```
