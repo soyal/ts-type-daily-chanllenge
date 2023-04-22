@@ -110,3 +110,11 @@ type Space = ' ' | '\t' | '\n'
 
 type TrimLeft<S extends string> = S extends `${Space}${infer R}` ? TrimLeft<R> : S
 ```
+
+`14.00110-medium-capitalize.ts` 也是类型表达式中对字符串的处理问题。也有两个知识点，1：ts中有内置的UpperCase工具来处理字符串小写转大写;
+字符串的处理，是一种懒匹配模式，跟正则一样
+```typescript
+type Test<S extends string> = S extends `${infer F}${infer Tail}` ? F: never
+type r = Test<'abc'>
+// type r = 'a'
+```
