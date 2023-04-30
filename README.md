@@ -118,3 +118,13 @@ type Test<S extends string> = S extends `${infer F}${infer Tail}` ? F: never
 type r = Test<'abc'>
 // type r = 'a'
 ```
+
+
+`18.00191-medium-append-argument.ts` 核心是用infer提取函数类型的入参和返回类型，只是有个写法需要注意，关于多个函数入参的解构类型
+```typescript
+type AppendArgument<Fn extends (...args: any) => any, A> = Fn extends (
+  ...arags: infer P
+) => infer R
+  ? (...args: [...P, A]) => R
+  : never;
+```
