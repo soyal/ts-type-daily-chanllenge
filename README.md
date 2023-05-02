@@ -128,3 +128,35 @@ type AppendArgument<Fn extends (...args: any) => any, A> = Fn extends (
   ? (...args: [...P, A]) => R
   : never;
 ```
+
+`19.00296-medium-permutation.ts` 该题涉及的知识点较多
+```typescript
+type Permutation<T, K = T> = [T] extends [never]
+  ? []
+  : T extends T
+  ? [T, ...Permutation<Exclude<K, T>>]
+  : never;
+```
+首先，需要用到递归，这个在之前其实已经处理过很多次了
+然后，注意 `[T] extends [never]`的操作，之所以会这么处理，是因为在ts的类型表达式中，如果想判断一个类型是不是never，用 `T extends never`来处理, 当T为never时，会得到never，可以简单理解成ts的语言特性，因为extends会默认做distribute的操作
+```typescript
+type asssetNever<T> = T extends never ? true : false;
+
+type a = asssetNever<never>;
+// type a = never
+```
+再然后，注意 `T extends T`的操作，这里是利用ts的distribute特性
+```typescript
+type UnionTypeTest<T> = T extends T ? [T, 1, 2] : never;
+type c = UnionTypeTest<1 | 2>;
+// type c = [1, 1, 2] | [2, 1, 2]
+```
+extends前的T和extends后的T不是同一个东西，前面的T是`1|2`这个unionType，后面的T是被distributed之后的联合类型中的元素 
+最后，再看`[T, ...Permutation<Exclude<K, T>>]`，这里数组的spread运算涉及了联合类型
+```typescript
+type c = UnionTypeTest<1 | 2>;
+type c_2 = 1 | 2;
+type d = [...c, 999];
+// type d = [1, 1, 2, 999] | [2, 1, 2, 999]
+```
+也就是，一个联合类型，其中每个元素如果都是数组，是可以被spread的，而且其spread结果计算逻辑是拿联合的每个元素单独spread，再将spread结果进行联合
