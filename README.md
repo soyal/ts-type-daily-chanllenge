@@ -160,3 +160,14 @@ type d = [...c, 999];
 // type d = [1, 1, 2, 999] | [2, 1, 2, 999]
 ```
 也就是，一个联合类型，其中每个元素如果都是数组，是可以被spread的，而且其spread结果计算逻辑是拿联合的每个元素单独spread，再将spread结果进行联合
+
+`20.00298-medium-length-of-string.ts` 知识点：字符串的length属性，只会返回number这个类型，而数组的length属性会具体返回数字
+```typescript
+type Test1<S extends any[]> = S['length'];
+type Test2<S extends string> = S['length'];
+
+type b = Test1<['a', 'b']>
+// type b = 2
+type c = Test2<'abc'>
+// type c = number
+```
