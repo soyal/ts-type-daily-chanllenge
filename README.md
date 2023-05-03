@@ -155,7 +155,6 @@ extends前的T和extends后的T不是同一个东西，前面的T是`1|2`这个u
 最后，再看`[T, ...Permutation<Exclude<K, T>>]`，这里数组的spread运算涉及了联合类型
 ```typescript
 type c = UnionTypeTest<1 | 2>;
-type c_2 = 1 | 2;
 type d = [...c, 999];
 // type d = [1, 1, 2, 999] | [2, 1, 2, 999]
 ```
