@@ -170,3 +170,6 @@ type b = Test1<['a', 'b']>
 type c = Test2<'abc'>
 // type c = number
 ```
+
+
+`21.00459-medium-flatten.ts` 知识点：提取数组中的元素，可以用`[infer L, ...infer R]`来解构。不过这道题更多的是在考察递归处理问题的思路
