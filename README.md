@@ -173,3 +173,13 @@ type c = Test2<'abc'>
 
 
 `21.00459-medium-flatten.ts` 知识点：提取数组中的元素，可以用`[infer L, ...infer R]`来解构。不过这道题更多的是在考察递归处理问题的思路
+
+`22.00527-medium-append-to-object.ts` 知识点: 在对象属性的类型表达中，`key in Foo`中，如果Foo是一个string，那么等同于将Foo作为对象的key
+```typescript
+type Test<T extends string> = {
+    [key in T]: 1
+}
+type a = Test<'233'>
+// type a = { 233: 1 }
+```
+其实这里也可以把T当做联合类型，只不过是被联合的元素只有一个
