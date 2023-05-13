@@ -188,3 +188,5 @@ type a = Test<'233'>
 
 
 `25.00599-medium-merge.ts` 知识点：有一个在使用&运算符时比较容易犯错的地方，A & B的时候，如果A和B都有一个a属性，但是类型不同，那么在合并后的结果中，a的类型将会是never
+
+`26.00612-medium-kebabcase.ts`  ts对于字符串操作有内置的类型表达式，Uncapitalize, Capitalize
