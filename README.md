@@ -190,3 +190,22 @@ type a = Test<'233'>
 `25.00599-medium-merge.ts` 知识点：有一个在使用&运算符时比较容易犯错的地方，A & B的时候，如果A和B都有一个a属性，但是类型不同，那么在合并后的结果中，a的类型将会是never
 
 `26.00612-medium-kebabcase.ts`  ts对于字符串操作有内置的类型表达式，Uncapitalize, Capitalize
+
+`27.00645-medium-diff.ts` 知识点：注意keyof运算符后面跟 `|`或者`&`时不同的表现
+```typescript
+type a = {
+  name: string;
+  age: number;
+};
+
+type b = {
+  name: string;
+  address: string;
+};
+
+type c = keyof (a | b);
+// type c = "name"
+type d = keyof (a & b)
+// type d = "name" | "age" | "address"
+```
+keyof 后面跟`|` 是取其属性字段交集，keyof 后面跟`&` 是取其属性字段并集
