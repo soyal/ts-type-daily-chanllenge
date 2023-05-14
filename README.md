@@ -209,3 +209,19 @@ type d = keyof (a & b)
 // type d = "name" | "age" | "address"
 ```
 keyof 后面跟`|` 是取其属性字段交集，keyof 后面跟`&` 是取其属性字段并集
+
+
+`28.00949-medium-anyof.ts`  
+知识点：
+1. T为数组时，`T[number]`代指数组中的任意元素，也包括T数组本身
+```typescript
+type T1<T extends any[]> = T[number] extends [] ? true: false // T[number] 也会代指本身
+type a = T1<[[]]>
+// type a = true
+```
+2. 当拿`T[number]`去做extends判断的时候，比如 `T[number] extends 1 ? true: false`，意思是T数组中所有的元素都得满足条件，才会返回true
+```typescript
+type T2<T extends any[]> = T[number] extends 1 ? true: false
+type c1 = T2<[1,2]> // type c1 = false
+type c2 = T2<[1,1]> // type c2 = true
+```
