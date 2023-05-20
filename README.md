@@ -225,3 +225,14 @@ type T2<T extends any[]> = T[number] extends 1 ? true: false
 type c1 = T2<[1,2]> // type c1 = false
 type c2 = T2<[1,1]> // type c2 = true
 ```
+
+`30.01097-medium-isunion.ts`  这道题核心是考察unionType的distribute特性，有`A extends B`，当A为unionType的时候，会将A中的每个元素提取出来分别与B进行extends，然后将其结果进行`|`之后返回。
+因此，下面的答案
+```typescript
+type IsUnion<T, C = T> = (
+  T extends T ? (C extends T ? true : false) : false
+) extends true
+  ? false
+  : true;
+```
+其中`T extends T ? (C extends T ? true : false) : false` 针对unionType，必然会返结果既包含true也包含false，是一个boolean类型，而对于非unionType，则只会是true
