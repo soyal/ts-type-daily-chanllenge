@@ -236,3 +236,18 @@ type IsUnion<T, C = T> = (
   : true;
 ```
 其中`T extends T ? (C extends T ? true : false) : false` 针对unionType，必然会返结果既包含true也包含false，是一个boolean类型，而对于非unionType，则只会是true
+
+`31.01130-medium-replacekeys.ts` 知识点：自动distribute，如下
+```typescript
+type Test2<T1> = {
+  [P in keyof T1]: T1[P];
+};
+
+type b = Test2<{ a: 1 } | { b: 2 }>;
+// type b = Test2<{
+//     a: 1;
+// }> | Test2<{
+//     b: 2;
+// }>
+```
+当类型函数直接返回一个对象时，传入的入参如果是一个unionType，会发生自动distribute，不需要写`T1 extends any`来手动distribute
