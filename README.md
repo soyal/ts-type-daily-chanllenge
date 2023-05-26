@@ -251,3 +251,29 @@ type b = Test2<{ a: 1 } | { b: 2 }>;
 // }>
 ```
 当类型函数直接返回一个对象时，传入的入参如果是一个unionType，会发生自动distribute，不需要写`T1 extends any`来手动distribute
+
+
+`32.01367-medium-remove-index-signature.ts` 
+知识点：
+1.Key Remapping ，可用于属性过滤，用法
+```typescript
+type Test<T> = {
+  [P in keyof T as P extends "a" ? P : never]: T[P];
+};
+
+type a = Test<{
+  a: 1;
+  b: 2;
+}>;
+
+```
+上面用于将除了a属性外的所有属性都过滤掉
+
+2. 名词Index Signature，指的是非具体的属性名
+```typescript
+type a = {
+  [key: string]: string
+  foo(): void
+}
+```
+其中这个key: string就是指的index signature
