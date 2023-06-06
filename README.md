@@ -277,3 +277,11 @@ type a = {
 }
 ```
 其中这个key: string就是指的index signature
+
+`36.02688-medium-startswith.ts`  知识点：在字符串操作中，如果只关心某部分字符串，不关心的部分可以直接声明为string
+```typescript
+type StartsWith<T extends string, U extends string> = T extends `${U}${string}`
+  ? true
+  : false;
+```
+比如上面的例子，我们只关心前缀部分，剩余的字符串部分直接声明为string即可
