@@ -43,3 +43,5 @@ type cases = [
   > View solutions: https://tsch.js.org/2688/solutions
   > More Challenges: https://tsch.js.org
 */
+
+type Test<FuncName extends string, Obj extends { a: number; b: string }> = {};
