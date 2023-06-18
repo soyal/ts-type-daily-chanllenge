@@ -285,3 +285,26 @@ type StartsWith<T extends string, U extends string> = T extends `${U}${string}`
   : false;
 ```
 比如上面的例子，我们只关心前缀部分，剩余的字符串部分直接声明为string即可
+
+
+`38.02757-medium-partialbykeys.ts` 知识点：将联合类型转变成一个对象
+```typescript
+// 如果我们有两个类型A和B
+type A = {
+  a: string;
+};
+type B = {
+  b: number;
+};
+
+// 正常情况下联合后会得到一个联合类型
+type C = A & B;
+
+// 虽然一般我们认为 A & B 这个联合类型同 { a: string, b: number } 没有什么区别，但是在类型系统中他们是不同的
+// 如果我们想将其转化成一个完整的key value类型，可以用Omit never的形式
+type C = Omit<A & B, never>
+// type C = {
+//     a: string;
+//     b: number;
+// }
+```
