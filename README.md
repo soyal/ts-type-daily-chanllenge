@@ -308,3 +308,13 @@ type C = Omit<A & B, never>
 //     b: number;
 // }
 ```
+
+`39.02759-medium-requiredbykeys.ts` 知识点：index signature中声明required，可以使用`-?`符号
+```typescript
+type A = { name?: string }
+
+// 如果想将a中的name属性变更为required
+type MyRequired<T> = {
+  [P in keyof T]-?: T[P]
+}
+```
