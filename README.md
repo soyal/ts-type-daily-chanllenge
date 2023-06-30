@@ -318,3 +318,10 @@ type MyRequired<T> = {
   [P in keyof T]-?: T[P]
 }
 ```
+
+`40.02793-medium-mutable.ts` 知识点：如果想让只读属性变成mutable的，可以在属性前加`-`
+```typescript
+type Mutable<T extends object> = {
+  -readonly [P in keyof T]: T[P];
+};
+```
