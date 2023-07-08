@@ -59,3 +59,20 @@ type cases = [
   > View solutions: https://tsch.js.org/2852/solutions
   > More Challenges: https://tsch.js.org
 */
+
+type Test<
+  N extends string,
+  V extends { label: string; value: string; name: string }
+> = Record<
+  `A_${N}`,
+  {
+    [P in V["name"]]: V["value"];
+  }
+>;
+
+declare function extractArrItemType<T extends { value: string | number }[]>(
+  params: readonly [...T]
+): T[number]["value"];
+
+const a = [{value: 0}, { value: 1 }, { value: 2 }, { value: 'test' }] as const;
+const ar = extractArrItemType(a);
