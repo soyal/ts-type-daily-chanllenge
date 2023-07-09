@@ -325,3 +325,25 @@ type Mutable<T extends object> = {
   -readonly [P in keyof T]: T[P];
 };
 ```
+
+
+`42.02946-medium-objectentries.ts` 
+知识点：
+* 1.将对象的值转换成联合类型，可以通过`T[keyof T]`的方式进行实现
+```typescript
+type ObjectToUnion<T> = T[keyof T];
+type a = ObjectToUnion<{ a: number; b: string }>;
+// type a = string | number
+```
+* 2.`Partial`会给属性的值新增undefined的类型，`Required`会在属性值仅为undefined的时候将其转换成never
+```typescript
+type a = Partial<{ key: number }>;
+// type a = {
+//     key?: number | undefined;
+// }
+
+type b = Required<{ key?: undefined }>;
+// type b = {
+//     key: never;
+// }
+```
