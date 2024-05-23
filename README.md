@@ -427,4 +427,13 @@ type Test<K, V> = {
 };
 ```
 
-`44.03200-medium-merge`
+`49.04179-medium-flip`
+知识点：
+在定义Object的key的类型时，可以使用`as`关键字追加运算
+比如，这道题是要交换object的key，value，我们在使用 `key in keyof T`取到key的类型后，可以用as再次追加`T[key]`取到T的值
+因此才有答案
+```typescript
+type Flip<T extends Record<string, number | string | boolean>> = {
+  [K in keyof T as `${T[K]}`]: K;
+};
+```
